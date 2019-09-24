@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+import 'package:flutter_html/flutter_html.dart';
+
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  var data;
+
+  bool isLoading = true;
+
+  final String url = "https://www.simplifiedcoding.net/wp-json/wp/v2/posts";
+
+  @override
+  initState() {
+    super.initState();
+    getjsondata();
+  }
+
+  Future<String> getjsondata() async {
+    var response = await http.get(
+      Uri.encodeFull(url),
+    );
+    setState(() {
+      var convertdatatojson = json.decode(response.body);
+      data = convertdatatojson;
+      isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.all(8.0),
+        width: double.infinity,
+        height: double.infinity,
+        child: Center(
+          child: isLoading
+              ? CircularProgressIndicator()
+              : ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) => Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Image.network(
+                          data[index]['jetpack_featured_media_url']
+                        ),
+                        Text(
+                         data[index]['title']["rendered"],
+                         style: TextStyle(
+                           fontSize: 20.0,
+                           fontWeight: FontWeight.bold,
+                         ),
+                        ),
+                        Html(
+                          data: data[index]['excerpt']['rendered'],
+                        ),
+                        /*
+                        Text(
+                          data[index]['excerpt']['rendered'],
+                        ),*/
+                      ],
+                    ),
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
+}
