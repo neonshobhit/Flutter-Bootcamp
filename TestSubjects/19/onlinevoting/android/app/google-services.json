@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "577731583287",
+    "firebase_url": "https://votingonline-381fe.firebaseio.com",
+    "project_id": "votingonline-381fe",
+    "storage_bucket": "votingonline-381fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577731583287:android:a5a8409fbeab7e39540eb2",
+        "android_client_info": {
+          "package_name": "com.example.onlinevoting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577731583287-47geh435v73cp953n2mg9hp6imefbkko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXkUhisJi9H5WEb1u4UlCnhAxI52EGIQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577731583287-47geh435v73cp953n2mg9hp6imefbkko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

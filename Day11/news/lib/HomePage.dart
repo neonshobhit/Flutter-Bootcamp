@@ -3,7 +3,10 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:news/Information/More.dart';
+import 'package:news/Information/Privacypolicy.dart';
+import 'package:news/Information/Rate.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:news/Content.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,12 +49,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  launchURLbrowser(String yourURL) async {
-    /*if(await canLaunch(yourURL)){
-        
-        await launch(yourURL, forceWebView: true);
-      } 
-      */
+  launchURLbrowser(String yourURL, bool tf) async {
+    if (await canLaunch(yourURL)) {
+      await launch(yourURL, forceWebView: tf);
+    } else {
+      throw "Couldn't launch $yourURL";
+    }
   }
 
   _sendtoNextScreen() {
@@ -127,194 +130,270 @@ class _HomePageState extends State<HomePage> {
         child: Drawer(
           child: SingleChildScrollView(
             child: Center(
-              child:
-                  ListView(primary: false, shrinkWrap: true, children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountEmail: Text(
-                    //data["articles"][index]["url"],
-                    "",
-                  ),
-                  accountName: Text(
-                    "Catalogue",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 30.0,
+              child: ListView(
+                primary: false,
+                shrinkWrap: true,
+                children: <Widget>[
+                  UserAccountsDrawerHeader(
+                    accountEmail: Text(
+                      //data["articles"][index]["url"],
+                      "",
+                    ),
+                    accountName: Text(
+                      "Catalogue",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 30.0,
+                      ),
                     ),
                   ),
-                ),
-                ListTile(
-                  leading: Icon(
-                    Icons.near_me,
-                    size: 50.0,
-                  ),
-                  title: Text(
-                    "SUGGESTED ARTICLES",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 25.0,
+                  ListTile(
+                    leading: Icon(
+                      Icons.near_me,
+                      size: 50.0,
+                    ),
+                    title: Text(
+                      "SUGGESTED ARTICLES",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 25.0,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: ListView(
-                      shrinkWrap: true,
-                      primary: false,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                changinglink =
-                                    "https://newsapi.org/v2/top-headlines?sources=google-news-in&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
-                                getjsondata();
-                                isLoading = !isLoading;
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              "Top headlines from Google News (India)",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: ListView(
+                        shrinkWrap: true,
+                        primary: false,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  changinglink =
+                                      "https://newsapi.org/v2/top-headlines?sources=google-news-in&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
+                                  getjsondata();
+                                  isLoading = !isLoading;
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: Text(
+                                "Top headlines from Google News (India)",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                changinglink =
-                                    "https://newsapi.org/v2/top-headlines?country=in&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
-                                getjsondata();
-                                isLoading = !isLoading;
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              "Top headlines from India",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  changinglink =
+                                      "https://newsapi.org/v2/top-headlines?country=in&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
+                                  getjsondata();
+                                  isLoading = !isLoading;
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: Text(
+                                "Top headlines from India",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                changinglink =
-                                    "https://newsapi.org/v2/everything?q=bitcoin&from=2019-08-22&sortBy=publishedAt&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
-                                getjsondata();
-                                isLoading = !isLoading;
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              "Bitcoins",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  changinglink =
+                                      "https://newsapi.org/v2/everything?q=bitcoin&from=2019-08-22&sortBy=publishedAt&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
+                                  getjsondata();
+                                  isLoading = !isLoading;
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: Text(
+                                "Bitcoins",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                changinglink =
-                                    "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
-                                getjsondata();
-                                isLoading = !isLoading;
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              "Top Business headlines in US",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  changinglink =
+                                      "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
+                                  getjsondata();
+                                  isLoading = !isLoading;
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: Text(
+                                "Top Business headlines in US",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                changinglink =
-                                    "https://newsapi.org/v2/everything?q=apple&from=2019-09-21&to=2019-09-21&sortBy=popularity&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
-                                getjsondata();
-                                isLoading = !isLoading;
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              "Apple from yesterday",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  changinglink =
+                                      "https://newsapi.org/v2/everything?q=apple&from=2019-09-21&to=2019-09-21&sortBy=popularity&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
+                                  getjsondata();
+                                  isLoading = !isLoading;
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: Text(
+                                "Apple from yesterday",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                changinglink =
-                                    "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
-                                getjsondata();
-                                isLoading = !isLoading;
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              "Headlines from TechCrunch",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  changinglink =
+                                      "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
+                                  getjsondata();
+                                  isLoading = !isLoading;
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: Text(
+                                "Headlines from TechCrunch",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                changinglink =
-                                    "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
-                                getjsondata();
-                                isLoading = !isLoading;
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            child: Text(
-                              "Wall Street Journals",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  changinglink =
+                                      "https://newsapi.org/v2/everything?domains=wsj.com&apiKey=b0bd20969d3c41b0b8a600cb78bfc2ff";
+                                  getjsondata();
+                                  isLoading = !isLoading;
+                                  Navigator.of(context).pop();
+                                });
+                              },
+                              child: Text(
+                                "Wall Street Journals",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ]),
+                  ListTile(
+                    leading: Icon(
+                      Icons.near_me,
+                      size: 50.0,
+                    ),
+                    title: Text(
+                      "About",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RateMyApp(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Rate my App!",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PrivacyPolicy(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Privacy Policy",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                   Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => More(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "More Apps",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -381,16 +460,37 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                       Divider(),
-                                      Text(
-                                        data["articles"][index]
-                                                    ["description"] ==
-                                                null
-                                            ? "null"
-                                            : data["articles"][index]
-                                                ["description"],
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w400,
+                                      GestureDetector(
+                                        onDoubleTap: () {
+                                          data["articles"][index]["url"] == null
+                                              ? print("Link is broken")
+                                              : launchURLbrowser(
+                                                  data["articles"][index]
+                                                      ["url"],
+                                                  false);
+                                        },
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            data["articles"][index]["url"] ==
+                                                    null
+                                                ? print("Link is broken")
+                                                : launchURLbrowser(
+                                                    data["articles"][index]
+                                                        ["url"],
+                                                    true);
+                                          },
+                                          child: Text(
+                                            data["articles"][index]
+                                                        ["description"] ==
+                                                    null
+                                                ? "null"
+                                                : data["articles"][index]
+                                                    ["description"],
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       /*Padding(
