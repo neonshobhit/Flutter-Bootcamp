@@ -93,11 +93,12 @@ class _NoteDetailsState extends State<NoteDetails> {
                       updateTitle();
                     },
                     decoration: InputDecoration(
-                        labelText: "Title",
-                        labelStyle: textStyle,
-                        icon: Icon(
-                          Icons.title,
-                        )),
+                      labelText: "Title",
+                      labelStyle: textStyle,
+                      icon: Icon(
+                        Icons.title,
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -197,53 +198,46 @@ class _NoteDetailsState extends State<NoteDetails> {
     return priority;
   }
 
-
-  void updateTitle(){
+  void updateTitle() {
     note.title = titleController.text;
   }
 
-
-  void updateDescription(){
+  void updateDescription() {
     note.description = descriptionController.text;
   }
 
-  void _save() async{
+  void _save() async {
     moveToLastScreen();
     note.date = DateFormat.yMMMd().format(DateTime.now());
     int result;
-    if(note.id != null){
+    if (note.id != null) {
       result = await helper.updateNote(note);
-
-    }else{
+    } else {
       result = await helper.insertNote(note);
     }
-    if(result != 0){
+    if (result != 0) {
       _showAlertDialog('Status', 'Note Saved Successfully');
-
-    }else{
+    } else {
       _showAlertDialog('Status', 'Problem saving Note');
     }
   }
 
-  void _delete() async{
+  void _delete() async {
     moveToLastScreen();
-    if(note.id == null){
+    if (note.id == null) {
       _showAlertDialog('Status', 'First Add Notes');
       return;
     }
 
     int result = await helper.deleteNote(note.id);
-    if(result != 0){
+    if (result != 0) {
       _showAlertDialog('Status', 'Task Deleted');
-
-    }else{
+    } else {
       _showAlertDialog('Status', 'Error');
-
     }
-
   }
 
-  void _showAlertDialog(String title, String message){
+  void _showAlertDialog(String title, String message) {
     AlertDialog alertDialog = AlertDialog(
       title: Text(
         title,

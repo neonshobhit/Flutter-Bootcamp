@@ -8,11 +8,14 @@ class AddNotes extends StatefulWidget {
 
 class _AddNotesState extends State<AddNotes> {
   GlobalKey<FormState> _formkey = new GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   bool autovalidate = false;
   String title, desc;
+  bool loaddone = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       appBar: AppBar(
         title: Text(
           "Add Notes",
@@ -60,7 +63,8 @@ class _AddNotesState extends State<AddNotes> {
                   child: Text(
                     "Save",
                   ),
-                  onPressed: (){
+                  onPressed: () {
+                    showsnackforsaving();
                     sendnotetofirebase();
                   },
                 )
@@ -71,13 +75,60 @@ class _AddNotesState extends State<AddNotes> {
       ),
     );
   }
-  sendnotetofirebase() async{
-    if(_formkey.currentState.validate()){
+
+  sendnotetofirebase() async {
+    if (_formkey.currentState.validate()) {
       _formkey.currentState.save();
 
-      DatabaseReference ref = FirebaseDatabase.instance.reference();
-      
+      FirebaseDatabase database = FirebaseDatabase();
+      database.setPersistenceEnabled(true);
+      database.setPersistenceCacheSizeBytes(1000000);
 
+      DatabaseReference ref = FirebaseDatabase.instance.reference();
+
+      var data = {
+        "title": title,
+        "details": desc,
+      };
+      ref.child("notes").child(title).set(data).then((v) async {
+        await showsnack();
+
+        _formkey.currentState.reset();
+        //if(loaddone == true)
+         // Navigator.pop(context);
+      });
+    } else {
+      setState(() {
+        autovalidate = true;
+      });
     }
+  }
+
+  showsnackforsaving() {
+    _scaffoldkey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          "Saving Note",
+        ),
+      ),
+    );
+  }
+
+  showsnack() async {
+
+    //why is this code throwing exception still when the net if off.
+    try{
+      _scaffoldkey.currentState.removeCurrentSnackBar();
+    }catch(e){
+      print(e);
+    }
+    
+    _scaffoldkey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          "Note saved successfully!",
+        ),
+      ),
+    );
   }
 }

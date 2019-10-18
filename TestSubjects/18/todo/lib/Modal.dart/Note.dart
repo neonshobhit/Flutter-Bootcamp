@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:todolist2/DatabaseHelper.dart';
-
 class Note {
   int _id;
   String _title;
@@ -44,8 +43,8 @@ class Note {
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    if (id != null) {
-      map['id'] = _id;
+    if (id != null) {             //what if _id?
+      map['id'] = _id;            //what if id?
     }
     map['title'] = _title;
     map['description'] = _description;
@@ -56,7 +55,7 @@ class Note {
 
   Note.fromMapObject(Map<String, dynamic> map) {
     this._id = map['id'];
-    this.title = map['title'];
+    this.title = map['title'];                    // what if _title?
     this._description = map['description'];
     this._priority = map['priority'];
     this._date = map['date'];

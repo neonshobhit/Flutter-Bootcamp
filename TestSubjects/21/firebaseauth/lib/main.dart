@@ -2,6 +2,7 @@ import 'package:firebaseauth/CheckAuth.dart';
 import 'package:firebaseauth/HomePage.dart';
 import 'package:firebaseauth/SignUp.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 main() => runApp(Auth());
 

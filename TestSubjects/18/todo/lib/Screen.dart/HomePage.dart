@@ -91,10 +91,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void navigateToDetail(Note note, String title) async {
-    bool result =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return NoteDetails(note, title);
-    }));
+    bool result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return NoteDetails(note, title);
+      }),
+    );
     if (result == true) {
       updateListView();
     }
